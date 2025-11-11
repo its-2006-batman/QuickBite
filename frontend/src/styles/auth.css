@@ -1,0 +1,446 @@
+/* =========================================
+   auth.css — Full stylesheet (light + dark)
+   Includes:
+   - theme variables (light + dark)
+   - auth form styles
+   - modern hero with background image + fade-in + parallax (desktop)
+   - balanced side-by-side equal-height cards with centered content
+   - responsive rules
+   ========================================= */
+
+/* -----------------------------
+   THEME VARIABLES (default = light)
+   ----------------------------- */
+:root{
+  --bg: #f9fafb;
+  --text: #111827;
+  --muted: #cbcbcb;
+  --card: rgba(255,255,255,0.9);
+  --input-bg: rgba(255,255,255,0.95);
+  --input-border: rgba(0,0,0,0.08);
+  --accent: #2563eb;
+  --accent-contrast: #ffffff;
+  --radius: 12px;
+  --shadow: 0 8px 20px rgba(0,0,0,0.08);
+  --glass-border: rgba(0,0,0,0.08);
+  --container-max: 1100px;
+  --accent-2: linear-gradient(135deg, rgba(99,102,241,0.9), rgba(14,165,233,0.9));
+  --bg-overlay-dark: rgba(0,0,0,0.5);
+  --bg-overlay-light: rgba(255,255,255,0.65);
+}
+
+/* -----------------------------
+   DARK THEME (auto by OS)
+   ----------------------------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b0f19;
+    --text: #f9fafb;
+    --muted: #9ca3af;
+    --card: rgba(255,255,255,0.04);
+    --input-bg: rgba(255,255,255,0.06);
+    --input-border: rgba(255,255,255,0.12);
+    --accent: #60a5fa;
+    --accent-contrast: #000000;
+    --radius: 12px;
+    --shadow: 0 12px 40px rgba(0,0,0,0.45);
+    --glass-border: rgba(255,255,255,0.06);
+    --container-max: 1100px;
+    --accent-2: linear-gradient(135deg, rgba(147,197,253,0.95), rgba(14,165,233,0.85));
+    --bg-overlay-dark: rgba(0,0,0,0.6);
+    --bg-overlay-light: rgba(255,255,255,0.02);
+  }
+}
+
+/* -----------------------------
+   BASE LAYOUT
+   ----------------------------- */
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+/* Generic root for auth pages */
+.auth-root{
+    background: url(../assets/bg.jpg);
+    background-size: cover;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+}
+
+/* Card used for auth forms and container pages */
+.auth-card{
+  width:100%;
+  max-width:var(--container-max);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.752), rgba(0, 0, 0, 0.489));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding:28px;
+  border:1px solid var(--glass-border);
+  transition: box-shadow .25s ease, transform .25s ease, background .25s ease;
+  color: white;
+}
+
+/* Header area for auth card */
+.auth-header{
+  margin:0 0 18px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.auth-title{
+  margin:0;
+  font-size:20px;
+  font-weight:600;
+  color:var(--text);
+}
+
+.auth-sub{
+  margin:6px 0 18px 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Form */
+.auth-form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.auth-form label{font-size:13px;color:white}
+
+.auth-input{
+  display:block;
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid var(--input-border);
+  background:var(--input-bg);
+  color:rgb(255, 255, 255);
+  outline:none;
+  transition:box-shadow .15s, border-color .12s;
+}
+.auth-input::placeholder{
+  color:rgba(255, 255, 255, 0.509)
+}
+
+.auth-input:focus{
+  box-shadow:0 6px 20px rgba(37,99,235,0.08);
+  border-color:var(--accent);
+}
+
+.auth-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-top:4px;
+}
+
+.btn{
+  cursor:pointer;
+  border:0;
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-decoration:none;
+}
+
+.btn-primary{
+  background: linear-gradient(90deg, var(--accent), #06b6d4);
+  color:var(--accent-contrast);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.12);
+  border: none;
+}
+
+.btn-ghost{
+  background:transparent;
+  color:white;
+  border:1px solid var(--input-border);
+}
+
+.form-foot{
+  margin-top:8px;
+  font-size:13px;
+  color:white;
+}
+
+.link{ color:var(--accent); text-decoration:none; font-weight:600; }
+
+/* Responsive tweaks */
+@media (max-width:520px){
+  .auth-card{padding:20px}
+  .auth-title{font-size:18px}
+}
+
+/* -----------------------------
+   BACKGROUND + HERO (image with fade-in & parallax)
+   ----------------------------- */
+
+/* Fade-in keyframes for background overlay */
+@keyframes bgFadeIn{
+  from{opacity:0; transform: scale(1.02)}
+  to{opacity:1; transform: scale(1)}
+}
+
+/* Register hero: uses a pseudo-element for overlay + fade so the image itself can be transitioned */
+.register-hero{
+  position: relative;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:48px 20px;
+  overflow: hidden;
+  /* Fallback background color; real image is in pseudo-element */
+  background: var(--bg);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* pseudo-element holds the bg image + gradient overlay and animates in */
+.register-hero::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(to bottom right, var(--bg-overlay-dark), rgba(0,0,0,0.18)),
+    url('../assets/bg.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /* parallax-like effect on desktop */
+  background-attachment: fixed;
+  opacity: 0;
+  transform: scale(1.02);
+  animation: bgFadeIn 900ms cubic-bezier(.2,.9,.2,1) forwards;
+  will-change: transform, opacity;
+  transition: filter 0.4s ease, opacity 0.6s ease;
+}
+
+/* Light theme modifies overlay to a lighter tint for readability */
+@media (prefers-color-scheme: light){
+  .register-hero::before{
+    background-image:
+      linear-gradient(to bottom right, var(--bg-overlay-light), rgba(255,255,255,0.25)),
+      url('../assets/bg.jpg');
+  }
+}
+
+/* Reduce intensity for dark mode (if needed) */
+@media (prefers-color-scheme: dark){
+  .register-hero::before{
+    filter: brightness(.6) contrast(.95);
+  }
+}
+
+/* Disable background-attachment:fixed on mobile for performance and usability */
+@media (max-width: 980px){
+  .register-hero::before{
+    background-attachment: scroll;
+    background-position: top center;
+  }
+}
+
+/* Optional subtle parallax effect on scroll (CSS only trick):
+   Move the pseudo element slightly on hover to give depth. */
+.register-hero:hover::before{
+  transform: scale(1.03) translateY(-4px);
+  transition: transform 700ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* z-index: place container above bg */
+.register-container{ position: relative; z-index: 2; }
+
+/* slight inner container blur/glass */
+.register-container{
+  width:100%;
+  max-width:var(--container-max);
+  padding:28px;
+  border-radius:20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* -----------------------------
+   HEADER (title + badges)
+   ----------------------------- */
+.register-hero__header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+  z-index:3;
+}
+
+.hero-title{
+  margin:0;
+  font-size:28px;
+  letter-spacing:-0.2px;
+  color:var(--text);
+  font-weight:700;
+}
+
+.hero-sub{
+  margin:6px 0 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.hero-badges{ display:flex; gap:8px; align-items:center; z-index:3; }
+.badge{
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  color: var(--muted);
+  border:1px solid var(--glass-border);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* -----------------------------
+   CHOICE GRID & CARDS (balanced equal height)
+   ----------------------------- */
+.choice-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  grid-auto-rows: 1fr; /* equal-height rows */
+  gap:32px;
+  align-items: stretch;
+  justify-content:center;
+  width:100%;
+  max-width:1000px;
+  margin:0 auto;
+  padding:18px 0;
+  z-index:3;
+}
+
+/* Full-height card with vertical centering */
+.choice-card{
+  display:flex;
+  flex-direction:column;
+  justify-content:center; /* center main content vertically */
+  align-items:stretch;
+  gap:18px;
+  padding:22px;
+  border-radius:16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid var(--glass-border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  height:100%; /* fill grid row */
+  overflow:visible;
+}
+
+/* Hover elevation */
+.choice-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 22px 60px rgba(2,6,23,0.16);
+}
+
+/* Media column for image */
+.choice-media{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px;
+  min-height:160px;
+  position:relative;
+}
+
+/* Accent blur behind image */
+.choice-media__accent{
+  position:absolute;
+  right:-10px;
+  top:-18px;
+  width:90px;
+  height:90px;
+  border-radius:20px;
+  background: var(--accent-2);
+  filter: blur(28px);
+  opacity: .14;
+  transform: rotate(-12deg);
+}
+
+/* Image */
+.choice-img{
+  width:160px;
+  height:160px;
+  object-fit:contain;
+  border-radius:12px;
+  background:var(--input-bg);
+  padding:10px;
+  transition: transform .32s ease, background .3s ease;
+}
+
+/* Body area */
+.choice-body{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  justify-content:center;
+}
+
+/* CTA pinned to bottom of the body if extra space */
+.choice-body .choice-cta{ margin-top:auto; display:flex; gap:10px; align-items:center; }
+
+/* Titles */
+.choice-title{ margin:0; font-size:18px; color:var(--text); font-weight:700; }
+.choice-desc{ margin:0; color:var(--muted); font-size:14px; }
+
+/* Buttons */
+.btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; font-weight:600; font-size:14px; text-decoration:none; transition: transform .18s ease, background .25s ease; }
+.btn-primary{ background: linear-gradient(90deg, var(--accent), #06b6d4); color:var(--accent-contrast); box-shadow: 0 8px 20px rgba(2,6,23,0.12); border:none; }
+.btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--input-border); }
+.btn:hover{ transform: translateY(-2px); }
+.choice-card:hover .choice-img{ transform: translateY(-6px) scale(1.04); }
+
+/* register footer */
+.register-legal{ text-align:center; color:var(--muted); font-size:12px; margin-top:4px; z-index:3; }
+
+/* -----------------------------
+   RESPONSIVE ADJUSTMENTS
+   ----------------------------- */
+@media (max-width: 980px){
+  /* Stack cards */
+  .choice-grid{ grid-template-columns: 1fr; grid-auto-rows: auto; gap:20px; max-width:720px; padding:14px 0; }
+  .choice-card{ padding:18px; min-height:unset; }
+  .choice-media{ min-height:0; }
+  .choice-img{ width:220px; height:auto; }
+  .choice-body{ align-items:center; text-align:center; }
+  .choice-body .choice-cta{ margin-top:12px; }
+  .hero-title{ font-size:22px; }
+  /* disable fixed attachment on small screens for performance */
+  .register-hero::before{ background-attachment: scroll; transform: scale(1.01); }
+}
+
+@media (max-width: 520px){
+  .register-container{ padding:20px; border-radius:14px; }
+  .hero-title{ font-size:20px; }
+  .choice-img{ width:200px; }
+}
+
+/* Utility */
+.centered{ display:flex; align-items:center; justify-content:center; }
+
+/* End of file */
