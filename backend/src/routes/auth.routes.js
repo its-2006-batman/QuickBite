@@ -11,9 +11,9 @@ router.post('/user/login',authController.loginUser);
 router.get('/user/logout',authController.logoutUser);
 
 //food partner routes can be added similarly
-router.post('/foodpartner/register',authController.registerFoodPartner);
-router.post('/foodpartner/login',authController.loginFoodPartner);
-router.get('/foodpartner/logout',authController.logoutFoodPartner);
+router.post('/food-partner/register',authController.registerFoodPartner);
+router.post('/food-partner/login',authController.loginFoodPartner);
+router.get('/food-partner/logout',authController.logoutFoodPartner);
 
 
 

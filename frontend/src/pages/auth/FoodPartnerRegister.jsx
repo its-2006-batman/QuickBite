@@ -1,8 +1,33 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import '../styles/auth.css'
+import '../../styles/auth.css'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const FoodPartnerRegister = () => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const business= e.target.business.value;
+    const owner= e.target.owner.value; 
+    const contact= e.target.contact.value;
+    const address= e.target.address.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    const response= await axios.post('http://localhost:3000/api/auth/food-partner/register', {
+      name: business,
+      contactName: owner,
+      phone:contact,
+      email,
+      address,
+      password
+    },{
+      withCredentials: true
+    })
+    console.log(response.data);
+    navigate('/create-food');
+  }
   return (
     <div className="auth-root">
       <div className="auth-card" role="region" aria-label="Food partner registration">
@@ -11,7 +36,7 @@ const FoodPartnerRegister = () => {
         </div>
         <p className="auth-sub">Register your food business to start listing items.</p>
 
-        <form className="auth-form" aria-label="partner-register-form">
+        <form className="auth-form" aria-label="partner-register-form" onSubmit={handleSubmit} >
           <div>
             <label htmlFor="business">Business name</label>
             <input id="business" className="auth-input" name="business" placeholder="Tasty Bites" />
@@ -44,7 +69,7 @@ const FoodPartnerRegister = () => {
           </div>
 
           <div className="auth-actions">
-            <button type="button" className="btn btn-primary">Create account</button>
+            <button type="submit" className="btn btn-primary">Create account</button>
             <button type="button" className="btn btn-ghost">Cancel</button>
           </div>
 

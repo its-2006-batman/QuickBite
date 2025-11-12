@@ -9,10 +9,16 @@ const authRoutes = require('./routes/auth.routes');
 
 const foodRoutes = require('./routes/food.routes');
 
+const cors = require('cors');
+
 const app = express();
 //request body ko json format me convert krne k liye middleware use krna padta hai mtlb req.body iske bina kaam nhi karegi
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    origin:'http://localhost:5173',  //frontend ka address
+    credentials:true,  //cookies allow krne k liye
+}));
 app.use('/api/auth',authRoutes);
 app.use('/api/food',foodRoutes);
 
