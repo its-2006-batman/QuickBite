@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const UserLogin = () => {
   const navigate = useNavigate();
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,6 +19,8 @@ const UserLogin = () => {
     }, {
       withCredentials: true
     });
+
+    navigate('/home');
 
     console.log(response.data);
   };
@@ -43,8 +45,8 @@ const UserLogin = () => {
           </div>
 
           <div className="auth-actions">
-            <button type="button" className="btn btn-primary">Sign in</button>
-            <button type="button" className="btn btn-ghost">Forgot?</button>
+            <button type="submit" className="btn btn-primary">Sign in</button>
+            
           </div>
 
           <div className="form-foot">No account? <Link to="/user/register" className="link">Create one</Link></div>

@@ -1,0 +1,173 @@
+/* Reels-style full-screen vertical video feed */
+
+.reels-root{
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior-y: contain;
+  background: #000; /* provide contrast behind video */
+}
+
+.reel{
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: grid;
+  place-items: center;
+  background: #000;
+}
+
+/* Inner stage provides a controlled max size on desktop while keeping full height feel */
+.reel-stage{
+  position: relative;
+  width:100%;
+  height:100%;
+}
+
+.reel-video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+/* Desktop sizing refinement: retain immersive feel but avoid extreme stretching */
+@media (min-width: 1100px){
+  .reel-stage{
+    max-width: 680px; /* narrower column for better focus */
+    height: 100vh;
+    aspect-ratio: 9 / 16; /* maintain vertical video ratio */
+    width: auto;
+    margin: 0 auto;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 18px 50px -10px rgba(0,0,0,0.55);
+    border-radius: 22px;
+    overflow: hidden;
+  }
+  .reel-video{
+    border-radius: 22px;
+  }
+  .reel-overlay{
+    border-bottom-left-radius:22px;
+    border-bottom-right-radius:22px;
+  }
+}
+
+/* Large desktop ultra-wide: expand but cap height ratio if monitors are very tall */
+@media (min-width: 1500px){
+  .reel-stage{ max-width: 760px; }
+}
+
+/* Transparent hitbox to allow tap to pause/play without interfering with overlay controls */
+.reel-hitbox{
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Overlay gradient and content */
+.reel-overlay{
+  position: absolute;
+  inset: auto 0 0 0; /* bottom overlay */
+  padding: 16px 16px 22px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.6) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Two-line clamp for description */
+.reel-desc{
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.3;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reel-cta-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.reel-btn{
+  appearance: none;
+  border: none;
+  background: linear-gradient(90deg, #2563eb, #06b6d4);
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(2,6,23,0.18);
+}
+.reel-btn_2{
+  appearance: none;
+  border: none;
+  text-decoration: none;
+  background: linear-gradient(90deg, #2563eb, #06b6d4);    
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(2,6,23,0.18);
+}
+
+.reel-btn:active{ transform: translateY(1px); }
+
+/* Safe-area padding for iOS devices */
+@supports(padding:max(0px)){
+  .reel-overlay{ padding-bottom: max(22px, env(safe-area-inset-bottom)); }
+}
+
+/* ==========================
+   Responsive adjustments
+   ========================== */
+@media (max-width: 480px){
+  .reel-overlay{ padding: 14px 14px 20px; }
+  .reel-desc{ font-size: 14px; line-height: 1.35; }
+  .reel-btn{ padding: 10px 16px; font-size: 14px; }
+}
+
+/* Very narrow heights (landscape phones) */
+@media (max-height: 520px){
+  .reel-overlay{ padding: 10px 12px 14px; }
+  .reel-desc{ font-size: 13px; line-clamp: 2; -webkit-line-clamp: 2; }
+  .reel-btn{ padding: 8px 14px; font-size: 13px; }
+}
+
+/* Tablets in landscape: reduce overlay density */
+@media (min-width: 768px) and (max-height: 740px){
+  .reel-overlay{ padding: 12px 18px 18px; }
+  .reel-desc{ font-size: 15px; }
+}
+
+/* Improve touch interaction */
+.reel-btn{ touch-action: manipulation; }
+.reel-hitbox{ touch-action: manipulation; }
+
+/* Optional: avoid snap on extremely small viewports to prevent jitter */
+@media (max-height: 420px){
+  .reels-root{ scroll-snap-type: none; }
+  .reel{ scroll-snap-align: none; }
+}
+
+/* Performance hints */
+.reel-video{ will-change: transform; backface-visibility: hidden; }

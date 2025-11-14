@@ -16,3 +16,4 @@ router.post('/',authMiddleware.authFoodPartnerMiddleware,upload.single("video"),
 //for users to view food items
 router.get('/',authMiddleware.authUserMiddleware,foodController.getFoodItems);
 module.exports = router;
+
